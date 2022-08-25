@@ -124,7 +124,6 @@ bool RealSense::color_frame_solve(void)
 bool RealSense::depth_frame_solve(void)
 {
     depth_frame = frame_set.get_depth_frame();
-    depth_units = depth_frame.get_units();
     if (!depth_frame.get_data_size())
     {
         return false;
@@ -247,7 +246,7 @@ cv::Mat RealSense::return_depth_frame(void)
 {
     const int w = depth_frame.get_width();
     const int h = depth_frame.get_height();
-    cv::Mat cv_frame = cv::Mat(cv::Size(w, h), CV_16UC1,
+    cv::Mat cv_frame = cv::Mat(cv::Size(w, h), CV_16U,
                                (void *)depth_frame.get_data(), cv::Mat::AUTO_STEP);
     // for (auto i = 0; i < cv_frame.rows; i++)
     // {
@@ -280,4 +279,9 @@ cv::Mat RealSense::return_camera_inside_param(void)
 {
     cv::Mat K = (cv::Mat_<double>(3, 3) << fx, 0, ppx, 0, fy, ppy, 0, 0, 1);
     return K;
+}
+
+float RealSense::return_camera_depth_factor(void)
+{
+    return depth_factor;
 }

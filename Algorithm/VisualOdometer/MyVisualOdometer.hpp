@@ -13,13 +13,14 @@ private:
     } fp_type;
 
     cv::Mat camera_inside_param;
+    float depth_factor;
 
     MyFeaturePoints feat_pot;
     MyPositionEstimation pos;
     MyDistanceEstimation dist;
 
 public:
-    MyVisualOdometer(cv::Mat K, enum FeatPotType type = ORB);
+    MyVisualOdometer(cv::Mat K, float depth_factor, enum FeatPotType type = ORB);
     ~MyVisualOdometer();
 
     void set_fp_type(FeatPotType type);
@@ -30,6 +31,8 @@ public:
         cv::DescriptorMatcher::MatcherType match_type = cv::DescriptorMatcher::BRUTEFORCE_HAMMING);
 
     void pos_estimate(void);
+    void pos_estimate(cv::Mat depth_frame);
+
     void dist_estimate(void);
 
     std::vector<cv::DMatch> return_fp_matches(void);

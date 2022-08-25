@@ -23,12 +23,12 @@ private:
     rs2::depth_frame depth_frame = frame_set.get_depth_frame();
     rs2::motion_frame gyro_frame = frame_set.first_or_default(RS2_STREAM_GYRO);
     rs2::motion_frame accel_frame = frame_set.first_or_default(RS2_STREAM_ACCEL);
-    float depth_units;
     bool if_depth, if_color, if_gyro, if_accel;
-    double fx = 605.926;
-    double fy = 605.7;
-    double ppx = 317.4;
-    double ppy = 246.356;
+    float fx = 605.926;
+    float fy = 605.7;
+    float ppx = 317.4;
+    float ppy = 246.356;
+    float depth_factor = 0.001;
 
     color_frame_state_e color_frame_state;
 
@@ -54,4 +54,6 @@ public:
     color_frame_state_e return_color_type(void);
 
     cv::Mat return_camera_inside_param(void);
+
+    float return_camera_depth_factor(void);
 };

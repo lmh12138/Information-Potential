@@ -1,9 +1,10 @@
 #include "MyVisualOdometer.hpp"
 #include <iostream>
 
-MyVisualOdometer::MyVisualOdometer(cv::Mat K, enum FeatPotType type)
+MyVisualOdometer::MyVisualOdometer(cv::Mat K, float dep_fac, enum FeatPotType type)
 {
     camera_inside_param = K;
+    depth_factor = dep_fac;
     fp_type = type;
 }
 
@@ -36,6 +37,13 @@ void MyVisualOdometer::pos_estimate(void)
 {
     pos.pos_estimate_2d2d(feat_pot.return_keypoints()[0], feat_pot.return_keypoints()[1],
                           feat_pot.return_matches(), camera_inside_param);
+}
+
+void MyVisualOdometer::pos_estimate(cv::Mat depth_frame)
+{
+    pos.pos_estimate_3d2d(depth_frame, depth_factor, camera_inside_param,
+                          feat_pot.return_keypoints()[0], feat_pot.return_keypoints()[1],
+                          feat_pot.return_matches());
 }
 
 void MyVisualOdometer::dist_estimate(void)

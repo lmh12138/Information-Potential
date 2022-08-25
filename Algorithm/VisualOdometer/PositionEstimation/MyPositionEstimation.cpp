@@ -48,8 +48,23 @@ void MyPositionEstimation::pos_estimate_2d2d(
     }
 }
 
-void MyPositionEstimation::pos_estimate_3d2d(void)
+void MyPositionEstimation::pos_estimate_3d2d(
+    cv::Mat depth_frame, float depth_factor, cv::Mat K,
+    std::vector<cv::KeyPoint> keypoints_1, std::vector<cv::KeyPoint> keypoints_2,
+    std::vector<cv::DMatch> matches)
 {
+    std::vector<cv::Point3f> pts_3d;
+    std::vector<cv::Point2f> pts_2d;
+    for (cv::DMatch m : matches)
+    {
+        auto d = depth_frame.ptr<uint16_t>(int(keypoints_1[m.queryIdx].pt.y))[int(keypoints_1[m.queryIdx].pt.x)];
+        if (d == 0) // bad depth
+            continue;
+        float dd = d * depth_factor;
+        cv::Point2d p1 = pixel2cam(keypoints_1[m.queryIdx].pt, K);
+        pts_3d.push_back(cv::Point3f(p1.x * dd, p1.y * dd, dd));
+        pts_2d.push_back(keypoints_2[m.trainIdx].pt);
+    }
 }
 
 std::vector<cv::Mat> MyPositionEstimation::return_estimation(void)

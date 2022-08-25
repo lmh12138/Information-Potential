@@ -47,7 +47,7 @@ void MyFeaturePoints::orb_match(
             max_dist = dist;
     }
 
-    std::cout << "min_dist: " << min_dist << std::endl;
+    // std::cout << "min_dist: " << min_dist << std::endl;
 
     //当描述子之间的距离大于两倍的最小距离时,即认为匹配有误.但有时候最小距离会非常小,设置一个下限.
     for (int i = 0; i < descriptors_1.rows; i++)

@@ -46,7 +46,7 @@ MyThread::MyThread(/* args */)
     rs_t = new RealSense();
     // rs_t = new RealSense(true, true, true, true);
     imu_t = new ImuPose();
-    vo_t = new MyVisualOdometer(rs_t->return_camera_inside_param());
+    vo_t = new MyVisualOdometer(rs_t->return_camera_inside_param(), rs_t->return_camera_depth_factor());
     Thread_RSDataCatch = new std::thread(std::mem_fn(&MyThread::RSDataCatch), this, 50);
     Thread_RSPoseSolve = new std::thread(std::mem_fn(&MyThread::RSPoseSolve), this, 100);
     Thread_SLAMTest1 = new std::thread(std::mem_fn(&MyThread::SLAMTest1), this);
@@ -146,27 +146,7 @@ void MyThread::SLAMTest1(void)
             continue;
         }
         vo_t->fp_match(pre_frame, now_frame);
-        cv::drawMatches(pre_frame, vo_t->return_fp_keypoints()[0],
-                        now_frame, vo_t->return_fp_keypoints()[1],
-                        vo_t->return_fp_matches(),
-                        img_frame);
-        vo_t->pos_estimate();
-        vo_t->dist_estimate();
-
-        cv::Mat img_frame = pre_frame;
-
-        for (int i = 0; i < vo_t->return_fp_matches().size(); i++)
-        {
-            // 第一个图
-            float depth1 = vo_t->return_dist_estimation()[i].z;
-            std::cout << "depth: " << depth1 << std::endl;
-            cv::Point2d pt1_cam = pixel_cam(
-                vo_t->return_fp_keypoints()[0][vo_t->return_fp_matches()[i].queryIdx].pt, rs_t->return_camera_inside_param());
-            cv::circle(img_frame, vo_t->return_fp_keypoints()[0][vo_t->return_fp_matches()[i].queryIdx].pt, 2,
-                       i_get_color(depth1), 2);
-        }
-
-        cv::imshow("img", img_frame);
+        vo_t->pos_estimate(rs_t->return_depth_frame());
 
         cv::waitKey(1);
     }
