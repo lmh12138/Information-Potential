@@ -14,8 +14,7 @@ public:
     MyPositionEstimation(/* args */);
     ~MyPositionEstimation();
 
-    void
-    pos_estimate_2d2d(
+    void pos_estimate_2d2d(
         std::vector<cv::KeyPoint> keypoints_1,
         std::vector<cv::KeyPoint> keypoints_2,
         std::vector<cv::DMatch> matches,
@@ -23,6 +22,11 @@ public:
 
     void pos_estimate_3d2d(
         cv::Mat depth_frame, float depth_factor, cv::Mat K,
+        std::vector<cv::KeyPoint> keypoints_1, std::vector<cv::KeyPoint> keypoints_2,
+        std::vector<cv::DMatch> matches);
+
+    void pos_estimate_3d3d(
+        cv::Mat depth_frame1, cv::Mat depth_frame2, float depth_factor, cv::Mat K,
         std::vector<cv::KeyPoint> keypoints_1, std::vector<cv::KeyPoint> keypoints_2,
         std::vector<cv::DMatch> matches);
 

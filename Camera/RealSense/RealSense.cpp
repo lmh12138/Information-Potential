@@ -87,8 +87,8 @@ bool RealSense::catch_frame(void)
 
 void RealSense::frame_solve(void)
 {
-    auto now_time = std::clock();
-    static clock_t color_pre_time, depth_pre_time, gyro_pre_time, accel_pre_time;
+    // auto now_time = std::clock();
+    // static clock_t color_pre_time, depth_pre_time, gyro_pre_time, accel_pre_time;
     if (if_color)
     {
         color_frame_solve();
