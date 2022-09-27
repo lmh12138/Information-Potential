@@ -32,6 +32,7 @@ public:
 
     void pos_estimate(void);
     void pos_estimate(cv::Mat depth_frame);
+    void pos_estimate(cv::Mat depth_frame1, cv::Mat depth_frame2);
 
     void dist_estimate(void);
 

@@ -20,6 +20,8 @@ include_directories(
     Algorithm/VisualOdometer/PositionEstimation
     Algorithm/VisualOdometer/DistanceEstimation
 
+    Algorithm/BackEnd
+
     ${OpenCV_INCLUDE_DIRS}
 )
 

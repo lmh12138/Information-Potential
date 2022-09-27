@@ -46,6 +46,13 @@ void MyVisualOdometer::pos_estimate(cv::Mat depth_frame)
                           feat_pot.return_matches());
 }
 
+void MyVisualOdometer::pos_estimate(cv::Mat depth_frame1, cv::Mat depth_frame2)
+{
+    pos.pos_estimate_3d3d(depth_frame1, depth_frame2, depth_factor, camera_inside_param,
+                          feat_pot.return_keypoints()[0], feat_pot.return_keypoints()[1],
+                          feat_pot.return_matches());
+}
+
 void MyVisualOdometer::dist_estimate(void)
 {
     dist.triangulation(feat_pot.return_keypoints()[0], feat_pot.return_keypoints()[1],
