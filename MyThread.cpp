@@ -31,16 +31,6 @@ cv::Point2d pixel_cam(cv::Point2d p, cv::Mat K)
         (p.y - K.at<double>(1, 2)) / K.at<double>(1, 1));
 };
 
-cv::Scalar i_get_color(float depth)
-{
-    float up_th = 50, low_th = 10, th_range = up_th - low_th;
-    if (depth > up_th)
-        depth = up_th;
-    if (depth < low_th)
-        depth = low_th;
-    return cv::Scalar(255 * depth / th_range, 0, 255 * (1 - depth / th_range));
-}
-
 MyThread::MyThread(/* args */)
 {
     rs_t = new RealSense();
